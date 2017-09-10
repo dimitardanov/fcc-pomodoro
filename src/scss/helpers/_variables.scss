@@ -1,1 +1,33 @@
 // _variables
+
+// colors
+$gray-base:              #000 !default;
+$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$gray:                   lighten($gray-base, 33.5%) !default; // #555
+$gray-light:             lighten($gray-base, 46.7%) !default; // #777
+$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+
+
+$primary:                #5c3566;
+$primary-dark:           darken($primary, 15%);
+$primary-light:          lighten(desaturate($primary, 10%), 10%); // #75507b;
+$primary-lighter:        lighten($primary-light, 20%); // #ad7fa8;
+
+
+$secondary-1:            #4e9a06;
+$secondary-1-dark:       darken($secondary-1, 15%);
+$secondary-1-light:      lighten(desaturate($secondary-1, 10%), 10%);
+$secondary-1-lighter:    lighten($secondary-1-light, 20%);
+
+
+$secondary-2:            #729fcf;
+$secondary-2-dark:       darken($secondary-2, 15%);
+$secondary-2-light:      lighten(desaturate($secondary-2, 10%), 10%);
+$secondary-2-lighter:    lighten($secondary-2-light, 15%);
+
+
+$complement:             #fcaf3e;
+$complement-dark:        darken($complement, 15%);
+$complement-light:       lighten(desaturate($complement, 10%), 10%);
+$complement-lighter:     lighten($complement-light, 10%);
