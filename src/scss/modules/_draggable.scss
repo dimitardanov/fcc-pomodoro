@@ -1,0 +1,26 @@
+
+.draggable {
+  top: 225px;
+  left: 105px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: $primary-lighter;
+  border: 1px solid $primary-light;
+  box-shadow: 0 0 3px $primary-lighter;
+
+  &:hover {
+    border: 1px solid $primary-light;
+    box-shadow:
+      0 0 3px $primary-lighter,
+      0 0 5px $primary-lighter;
+  }
+
+  &:active {
+    box-shadow:
+      0 0 3px $primary-lighter,
+      0 0 5px $primary-lighter,
+      inset 0 0 3px $primary;
+  }
+}
