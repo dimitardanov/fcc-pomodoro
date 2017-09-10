@@ -1,0 +1,21 @@
+
+.face {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 3px solid $primary-light;
+
+  p {
+    margin: 0;
+    text-align: center;
+    color: $primary-lighter;
+
+    &:first-child {
+      margin-top: 20px;
+    }
+
+    &:last-child {
+      margin-bottom: 20px;
+    }
+  }
+}
