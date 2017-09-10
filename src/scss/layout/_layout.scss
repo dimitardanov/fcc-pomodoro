@@ -1,1 +1,25 @@
 // _layout
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frame {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  position: relative;
+}
+
+.face {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-self: center;
+}
+
+.draggable {
+  position: absolute;
+}
