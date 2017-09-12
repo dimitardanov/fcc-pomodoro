@@ -1,0 +1,11 @@
+
+.knob {
+  top: -2px;
+  border: 1px solid $primary;
+  width: 238px;
+  height: 238px;
+  border-radius: 50%;
+
+  transform-origin: center;
+  transform: rotate(0deg);
+}
