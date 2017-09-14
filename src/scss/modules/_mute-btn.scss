@@ -1,0 +1,4 @@
+
+#mute {
+  @include button(80px, 1.5em, $primary-light, $primary-lighter, 10px, 0);
+}
