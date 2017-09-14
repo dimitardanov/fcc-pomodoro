@@ -8,5 +8,17 @@
   border-radius: 50%;
 
   transform-origin: center;
-  transform: rotate(0deg);
+  animation-name: knob-spin;
+  animation-duration: 60s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes knob-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
