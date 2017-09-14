@@ -1,9 +1,10 @@
 
 .knob {
-  top: -2px;
-  border: 1px solid $primary;
-  width: 238px;
-  height: 238px;
+  top: 0;
+  border: 3px solid $primary-light;
+  background-color: $primary-dark;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
 
   transform-origin: center;
