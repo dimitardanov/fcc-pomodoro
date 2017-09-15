@@ -17,18 +17,22 @@
       <button type="button" class="button draggable" id="ticker"></button>
     </div>
     <div class="face">
-      <button type="button" id="mute" data-toggle="false">
-        <span class="fa fa-bell-o" aria-hidden="true"></span>
-      </button>
+      <div id="header">
+        <button type="button" id="mute" data-toggle="false" title="settings">
+          <span class="fa fa-sliders" aria-hidden="true"></span>
+        </button>
+      </div>
       <div class="content">
         <p id="timer">
           <span id="minutes">25</span>:<span id="seconds">00</span>
         </p>
-        <p id="message">Focus on your task!</p>
+        <p id="message">Press <span class="fa fa-play" aria-hidden="true"></span> to start the timer.</p>
       </div>
-      <button type="button" id="play" data-toggle="false">
-        <span class="fa fa-play" aria-hidden="true"></span>
-      </button>
+      <div id="footer">
+        <button type="button" id="play" data-toggle="false" title="start timer">
+          <span class="fa fa-play" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
   </div>
 
