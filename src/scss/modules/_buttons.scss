@@ -1,0 +1,8 @@
+
+#header button {
+  @include button(1.5em, $primary-light, $primary-lighter, 10px, 0);
+}
+
+#footer button {
+  @include button(1.5em, $primary-light, $primary-lighter, 0, 10px);
+}
