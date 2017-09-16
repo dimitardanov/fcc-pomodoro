@@ -1,0 +1,17 @@
+
+noscript {
+  align-self: center;
+  color: $warning;
+  display: block;
+  font-family: sans-serif;
+  font-size: 1.3em;
+  margin-top: 45px;
+  padding: 10px;
+  text-shadow: 0 0 1px $gray-base;
+}
+
+#header,
+#footer,
+.content {
+  display: none;
+}

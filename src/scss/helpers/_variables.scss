@@ -31,3 +31,6 @@ $complement:             #fcaf3e;
 $complement-dark:        darken($complement, 15%);
 $complement-light:       lighten(desaturate($complement, 10%), 10%);
 $complement-lighter:     lighten($complement-light, 10%);
+
+
+$warning:                darken(red, 15%);
