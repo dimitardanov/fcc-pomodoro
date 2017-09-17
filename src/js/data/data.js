@@ -18,6 +18,9 @@ var data = {
         message: 'Break'
       }
     },
+    sound: {
+      mute: false
+    },
     status: {
       play: false
     }
