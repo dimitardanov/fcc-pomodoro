@@ -17,6 +17,9 @@ var data = {
       settings: {
         message: 'Break'
       }
+    },
+    status: {
+      play: false
     }
   }
 };

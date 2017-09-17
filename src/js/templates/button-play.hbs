@@ -1,1 +1,12 @@
-<button type="button" id="play" data-toggle="false" title="start timer" class="fa fa-play"></button>
+<button type="button" id="play"
+{{#if play}}
+  data-play="true"
+  title="stop timer"
+  class="fa fa-stop"
+{{else}}
+  data-play="false"
+  title="start timer"
+  class="fa fa-play"
+{{/if}}
+>
+</button>

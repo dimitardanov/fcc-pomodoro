@@ -16,6 +16,6 @@ render.timer(
     seconds: ('0' + data.data.timer.seconds).slice(-2)
   }
 );
-render.playBtn(footer);
+render.playBtn(footer, data.data.status);
 
 });

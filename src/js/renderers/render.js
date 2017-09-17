@@ -11,8 +11,9 @@ function settingsBtn(parent) {
   renderItem(parent, btnSettingsTempl, {});
 }
 
-function playBtn(parent) {
-  renderItem(parent, btnPlayTempl, {});
+function playBtn(parent, data) {
+  renderItem(parent, btnPlayTempl, data);
+}
 }
 
 function timer(parent, data) {
