@@ -1,6 +1,7 @@
 
 window.jQuery = $ = require('jquery');
 var bootstrap = require('bootstrap-sass');
+var helpers = require('./lib/helpers/helpers.js');
 var data = require('./data/data.js');
 var render = require('./renderers/render.js');
 
@@ -19,6 +20,11 @@ footer.addEventListener('click', function(event) {
     btn.className = play ? 'fa fa-stop' : 'fa fa-play';
     if (play) {
       startTimer();
+      ticker(
+        helpers.calcMS(data.data.timer.minutes, data.data.timer.seconds),
+        1000,
+        'timer'
+      );
     } else {
       stopTimer();
     }
@@ -55,4 +61,30 @@ function renderWelcomeFace() {
     }
   );
   render.playBtn(footer, data.data.status);
+}
+
+function ticker(ms, timeout, type) {
+  if (!data.data.status.play) {
+    renderWelcomeFace();
+  } else if (ms > 0) {
+    var remainder = helpers.convertToMinSec(ms);
+    render.timer(
+      content,
+      {
+        minutes: '-' + ('0' + remainder.minutes).slice(-2),
+        seconds: ('0' + remainder.seconds).slice(-2),
+        message: data.data[type].message
+      }
+    );
+    setTimeout(function() {
+      ticker(ms - timeout, timeout, type);
+    }, timeout);
+  } else {
+    type = (type == 'timer') ? 'break' : 'timer';
+    ticker(
+      helpers.calcMS(data.data[type].minutes, data.data[type].seconds),
+      timeout,
+      type
+    );
+  }
 }
