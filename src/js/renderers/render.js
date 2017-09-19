@@ -26,7 +26,7 @@ function timer(parent, data) {
 }
 
 function settings(parent, data) {
-  renderItem(parent, settingsTeml, {});
+  renderItem(parent, settingsTeml, data);
 }
 
 module.exports = {
