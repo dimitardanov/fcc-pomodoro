@@ -1,6 +1,4 @@
 
-window.jQuery = $ = require('jquery');
-var bootstrap = require('bootstrap-sass');
 var helpers = require('./lib/helpers/helpers.js');
 var data = require('./data/data.js');
 var render = require('./renderers/render.js');
