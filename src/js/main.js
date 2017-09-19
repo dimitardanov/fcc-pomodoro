@@ -86,3 +86,16 @@ function ticker(ms, timeout, type) {
     );
   }
 }
+
+header.addEventListener('click', function(event) {
+  if (event.target.nodeName.toLowerCase() == 'button') {
+    var targetID = event.target.getAttribute('id');
+    if (targetID == 'settings') {
+      // displaySettings();
+      console.log('displaySettings');
+    } else if (targetID == 'mute') {
+      data.data.sound.mute = !data.data.sound.mute;
+      render.muteBtn(header, {mute: data.data.sound.mute});
+    }
+  }
+});
