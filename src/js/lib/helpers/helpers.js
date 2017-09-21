@@ -18,7 +18,15 @@ function getOrigin() {
   };
 }
 
+function getBtnIndices(dind, numItems) {
+  return {
+    prev: (dind == 0) ? numItems - 1 : dind - 1,
+    next: (dind == numItems - 1) ? 0 : dind + 1
+  };
+}
+
 module.exports = {
   calcMS: calcMS,
-  convertToMinSec: convertToMinSec
+  convertToMinSec: convertToMinSec,
+  getBtnIndices: getBtnIndices
 };

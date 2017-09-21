@@ -40,3 +40,23 @@ describe('convertToMinSec function', function() {
   });
 });
 
+describe('getBtnIndices function', function() {
+  it('should return an object with prev/next keys', function() {
+    expect(h.getBtnIndices(0, 1))
+      .to.be.an('object')
+      .that.has.all.keys('prev', 'next');
+  });
+
+  it('should return 0 for both buttons if only one element', function() {
+    expect(h.getBtnIndices(0, 1)).to.deep.equal({prev: 0, next: 0});
+  });
+
+  it('should return last index for prev if display item is 0', function() {
+    expect(h.getBtnIndices(0, 4)).to.deep.equal({prev: 3, next: 1});
+  });
+
+  it('should return 0 for next if display item is last', function() {
+    expect(h.getBtnIndices(4, 5)).to.deep.equal({prev: 3, next: 0});
+  });
+});
+
