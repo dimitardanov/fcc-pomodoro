@@ -91,7 +91,7 @@ header.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button') {
     var targetID = event.target.getAttribute('id');
     if (targetID == 'settings') {
-      // displaySettings();
+      renderSettings(0);
       console.log('displaySettings');
     } else if (targetID == 'mute') {
       data.data.sound.mute = !data.data.sound.mute;
@@ -99,3 +99,33 @@ header.addEventListener('click', function(event) {
     }
   }
 });
+
+function renderSettings(index) {
+  render.title(header, {title: 'Settings'});
+  var key = data.order[index];
+  var btnIndices = helpers.getBtnIndices(index, data.order.length);
+  var renderData = {
+    minutes: ('0' + data.data[key].minutes).slice(-2),
+    seconds: ('0' + data.data[key].seconds).slice(-2),
+    message: data.data[key].settings.message,
+    order: data.order,
+    prevBtnTarget: btnIndices.prev,
+    nextBtnTarget: btnIndices.next,
+    prevBtnTitle: data.order[btnIndices.prev],
+    nextBtnTitle: data.order[btnIndices.next]
+  };
+  render.settings(content, renderData);
+  content.querySelector('ul li').className = '';
+  content.querySelector(
+    'ul li:nth-child(' + (index + 1) + ')')
+    .className = 'active';
+}
+
+content.addEventListener('click', function(event) {
+  if (event.target.nodeName.toLowerCase() == 'button' ||
+      event.target.nodeName.toLowerCase() == 'li') {
+    var index = event.target.getAttribute('data-target');
+    renderSettings(parseInt(index));
+  }
+});
+
