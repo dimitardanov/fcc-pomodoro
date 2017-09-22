@@ -4,6 +4,7 @@ var btnPlayTempl = require('../templates/button-play.hbs');
 var btnMuteTempl = require('../templates/button-mute.hbs');
 var timerTempl = require('../templates/timer.hbs');
 var settingsTeml = require('../templates/settings.hbs');
+var titleTempl = require('../templates/title.hbs');
 
 function renderItem(parent, template, data) {
   parent.innerHTML = template(data);
@@ -25,6 +26,10 @@ function timer(parent, data) {
   renderItem(parent, timerTempl, data);
 }
 
+function title(parent, data) {
+  renderItem(parent, titleTempl, data);
+}
+
 function settings(parent, data) {
   renderItem(parent, settingsTeml, data);
 }
@@ -34,5 +39,6 @@ module.exports = {
   playBtn: playBtn,
   muteBtn: muteBtn,
   timer: timer,
+  title: title,
   settings: settings
 };
