@@ -119,6 +119,8 @@ function renderSettings(index) {
   content.querySelector(
     'ul li:nth-child(' + (index + 1) + ')')
     .className = 'active';
+  var deg = helpers.val2deg(data.data[key].minutes, 59);
+  knob.style.transform = 'rotate(' + deg + 'deg)';
 }
 
 content.addEventListener('click', function(event) {
