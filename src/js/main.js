@@ -115,6 +115,7 @@ function renderSettings(index) {
     nextBtnTitle: data.order[btnIndices.next]
   };
   render.settings(content, renderData);
+  content.setAttribute('data-settings', index);
   content.querySelector('ul li').className = '';
   content.querySelector(
     'ul li:nth-child(' + (index + 1) + ')')
