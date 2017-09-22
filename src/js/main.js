@@ -7,6 +7,8 @@ var content = document.querySelector('.content');
 var header = document.querySelector('#header');
 var footer = document.querySelector('#footer');
 var knob = document.querySelector('.knob');
+var btnDrag = document.querySelector('#ticker');
+var body = document.querySelector('body');
 
 renderWelcomeFace();
 
@@ -40,11 +42,13 @@ function startTimer() {
     }
   );
   knob.style.animationName = 'knob-spin';
+  btnDrag.removeEventListener('mousedown', adjustKnob);
   console.log('timer started');
 }
 
 function stopTimer() {
   knob.style.animationName = '';
+  knob.style.transform = '';
   renderWelcomeFace();
   console.log('timer stopped');
 }
@@ -92,6 +96,7 @@ header.addEventListener('click', function(event) {
     var targetID = event.target.getAttribute('id');
     if (targetID == 'settings') {
       renderSettingsWithTransition(0);
+      btnDrag.addEventListener('mousedown', adjustKnob);
     } else if (targetID == 'mute') {
       data.data.sound.mute = !data.data.sound.mute;
       render.muteBtn(header, {mute: data.data.sound.mute});
@@ -141,3 +146,20 @@ content.addEventListener('click', function(event) {
   }
 });
 
+function adjustKnob(event) {
+  body.addEventListener('mousemove', move);
+  body.addEventListener('mouseup', function() {
+    body.removeEventListener('mousemove', move);
+  });
+}
+
+function move(event) {
+  var index = parseInt(content.getAttribute('data-settings'), 10);
+  var key = data.order[index];
+  var deg = helpers.getAngle(event);
+  var mins = Math.floor(helpers.deg2val(deg, 59));
+  if (mins != data.data[key].minutes) {
+    data.data[key].minutes = mins;
+    renderSettings(index);
+  }
+}
