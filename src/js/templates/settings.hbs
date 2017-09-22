@@ -1,8 +1,22 @@
-<button type="button" class="left fa fa-backward"></button>
-<button type="button" class="right fa fa-forward"></button>
-<p id="timer"><span id="minutes">25</span>:<span id="seconds">00</span></p>
-<p id="message">pomodoro</p>
+<button
+  type="button" class="left fa fa-backward"
+  data-target="{{prevBtnTarget}}"
+  title="{{prevBtnTitle}}"
+  >
+</button>
+<button
+  type="button" class="right fa fa-forward"
+  data-target="{{nextBtnTarget}}"
+  title="{{nextBtnTitle}}"
+  >
+</button>
+<p id="timer"><span id="minutes">{{minutes}}</span>:<span id="seconds">{{seconds}}</span></p>
+<p id="message">{{message}}</p>
 <ul class="indicators">
-  <li class="active"></li>
-  <li></li>
+  {{#each order}}
+    <li
+      data-target="{{@index}}"
+      title="{{this}}"
+      ></li>
+  {{/each}}
 </ul>
