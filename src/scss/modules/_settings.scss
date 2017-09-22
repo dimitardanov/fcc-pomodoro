@@ -25,7 +25,8 @@
 .content {
 
   button {
-    @include button(1.5em, $complement, $complement-dark, 0, 0);
+    @include button(1.5em, $primary-dark, $complement-dark, 0, 0);
+    text-shadow: 0 0 2px $primary-lighter;
     height: 52px;
     line-height: 52px;
     width: auto;
