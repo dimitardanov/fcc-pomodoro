@@ -91,8 +91,7 @@ header.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button') {
     var targetID = event.target.getAttribute('id');
     if (targetID == 'settings') {
-      renderSettings(0);
-      console.log('displaySettings');
+      renderSettingsWithTransition(0);
     } else if (targetID == 'mute') {
       data.data.sound.mute = !data.data.sound.mute;
       render.muteBtn(header, {mute: data.data.sound.mute});
@@ -124,11 +123,21 @@ function renderSettings(index) {
   knob.style.transform = 'rotate(' + deg + 'deg)';
 }
 
+function renderSettingsWithTransition(index) {
+  knob.style.transitionProperty = 'transform';
+  knob.style.transitionDuration = '200ms';
+  setTimeout(function() {
+    knob.style.transitionProperty = '';
+    knob.style.transitionDuration = '';
+  }, 200);
+  renderSettings(index);
+}
+
 content.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button' ||
       event.target.nodeName.toLowerCase() == 'li') {
-    var index = event.target.getAttribute('data-target');
-    renderSettings(parseInt(index));
+    var index = parseInt(event.target.getAttribute('data-target'), 10);
+    renderSettingsWithTransition(index);
   }
 });
 
