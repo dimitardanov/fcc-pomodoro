@@ -9,6 +9,7 @@ var footer = document.querySelector('#footer');
 var knob = document.querySelector('.knob');
 var btnDrag = document.querySelector('#ticker');
 var body = document.querySelector('body');
+var sound = document.querySelector('audio');
 
 renderWelcomeFace();
 
@@ -28,6 +29,7 @@ footer.addEventListener('click', function(event) {
     } else {
       stopTimer();
     }
+    playSound();
   }
 });
 
@@ -83,6 +85,7 @@ function ticker(ms, timeout, type) {
     }, timeout);
   } else {
     type = (type == 'timer') ? 'break' : 'timer';
+    playSound();
     ticker(
       helpers.calcMS(data.data[type].minutes, data.data[type].seconds),
       timeout,
@@ -100,6 +103,7 @@ header.addEventListener('click', function(event) {
     } else if (targetID == 'mute') {
       data.data.sound.mute = !data.data.sound.mute;
       render.muteBtn(header, {mute: data.data.sound.mute});
+      toggleVolume();
     }
   }
 });
@@ -162,4 +166,15 @@ function move(event) {
     data.data[key].minutes = mins;
     renderSettings(index);
   }
+}
+
+function playSound() {
+  if (!data.data.sound.mute) {
+    sound.currentTime = 0;
+    sound.play();
+  }
+}
+
+function toggleVolume() {
+  sound.volume = (data.data.sound.mute) ? 0 : 1;
 }
