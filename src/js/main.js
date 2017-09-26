@@ -45,6 +45,7 @@ function startTimer() {
   );
   knob.style.animationName = 'knob-spin';
   btnDrag.removeEventListener('mousedown', adjustKnob);
+  btnDrag.removeEventListener('touchstart', touchAdjust);
   console.log('timer started');
 }
 
@@ -100,6 +101,7 @@ header.addEventListener('click', function(event) {
     if (targetID == 'settings') {
       renderSettingsWithTransition(0);
       btnDrag.addEventListener('mousedown', adjustKnob);
+      btnDrag.addEventListener('touchstart', touchAdjust);
     } else if (targetID == 'mute') {
       data.data.sound.mute = !data.data.sound.mute;
       render.muteBtn(header, {mute: data.data.sound.mute});
@@ -157,6 +159,13 @@ function adjustKnob(event) {
   });
 }
 
+function touchAdjust(event) {
+  body.addEventListener('touchmove', touchMove);
+  body.addEventListener('touchleave', function() {
+    body.removeEventListener('touchmove', touchMove);
+  });
+}
+
 function move(event) {
   var index = parseInt(content.getAttribute('data-settings'), 10);
   var key = data.order[index];
@@ -166,6 +175,10 @@ function move(event) {
     data.data[key].minutes = mins;
     renderSettings(index);
   }
+}
+
+function touchMove(event) {
+  move(event.touches[0]);
 }
 
 function playSound() {
