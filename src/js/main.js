@@ -161,7 +161,7 @@ function adjustKnob(event) {
 
 function touchAdjust(event) {
   body.addEventListener('touchmove', touchMove);
-  body.addEventListener('touchleave', function() {
+  body.addEventListener('touchend', function() {
     body.removeEventListener('touchmove', touchMove);
   });
 }
