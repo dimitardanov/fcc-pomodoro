@@ -1,0 +1,50 @@
+
+.hint {
+  text-align: center;
+  text-indent: 0;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: -35px;
+  left: 50%;
+  font-size: 1.2em;
+  font-weight: 400;
+  font-family: monospace;
+  color: $primary-light;
+  transform: translate(-50%, 0);
+  opacity: 0;
+  animation-duration: 7.2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+
+  span {
+    color: $primary-dark;
+    text-shadow: 0 0 2px $complement-dark;
+
+    &:first-child {
+      transform: rotate(-20deg) translate(0, 5px);
+    }
+
+    &:last-child {
+      transform: rotate(20deg) translate(0, 5px);
+    }
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

@@ -10,6 +10,7 @@ var knob = document.querySelector('.knob');
 var btnDrag = document.querySelector('#ticker');
 var body = document.querySelector('body');
 var sound = document.querySelector('audio');
+var hint = document.querySelector('.hint');
 
 renderWelcomeFace();
 
@@ -138,6 +139,7 @@ function renderSettings(index, smooth) {
     knob.style.transform = 'rotate(' + angle + 'deg)';
   }
   btnDrag.classList.add('active');
+  hint.style.animationName = 'fade-in-out';
 }
 
 function rotateKnob(angle) {
