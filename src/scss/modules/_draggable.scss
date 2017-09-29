@@ -7,20 +7,35 @@
   padding: 0;
   border-radius: 50%;
   background-color: $primary-dark;
-  border: 1px solid $primary-light;
-  box-shadow: 0 0 3px $primary-lighter;
+  border: 2px solid $primary-light;
+}
+
+.draggable.active {
+  background-color: $primary-light;
+  border: 2px solid $primary-dark;
+  animation-name: breathe;
+  animation-duration: 1.8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  cursor: pointer;
 
   &:hover {
-    border: 1px solid $primary-light;
-    box-shadow:
-      0 0 3px $primary-lighter,
-      0 0 5px $primary-lighter;
+    border: 2px solid $primary-lighter;
   }
 
   &:active {
-    box-shadow:
-      0 0 3px $primary-lighter,
-      0 0 5px $primary-lighter,
-      inset 0 0 3px $primary;
+    background-color: $primary;
+    border: 2px solid $primary-lighter;
+  }
+}
+
+@keyframes breathe {
+  0% {
+    box-shadow: 0 0 0 0 $complement;
+  }
+
+  100% {
+    box-shadow: 0 0 6px $complement;
   }
 }
