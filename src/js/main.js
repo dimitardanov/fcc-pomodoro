@@ -99,7 +99,7 @@ header.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button') {
     var targetID = event.target.getAttribute('id');
     if (targetID == 'settings') {
-      renderSettingsWithTransition(0);
+      renderSettings(0, true);
       btnDrag.addEventListener('mousedown', adjustKnob);
       btnDrag.addEventListener('touchstart', touchAdjust);
     } else if (targetID == 'mute') {
@@ -110,7 +110,7 @@ header.addEventListener('click', function(event) {
   }
 });
 
-function renderSettings(index) {
+function renderSettings(index, smooth) {
   render.title(header, {title: 'Settings'});
   var key = data.order[index];
   var btnIndices = helpers.getBtnIndices(index, data.order.length);
@@ -130,25 +130,29 @@ function renderSettings(index) {
   content.querySelector(
     'ul li:nth-child(' + (index + 1) + ')')
     .className = 'active';
-  var deg = helpers.val2deg(data.data[key].minutes, 59);
-  knob.style.transform = 'rotate(' + deg + 'deg)';
+  var angle = helpers.val2deg(data.data[key].minutes, 59);
+  if (smooth) {
+    rotateKnob(angle);
+  } else {
+    knob.style.transform = 'rotate(' + angle + 'deg)';
+  }
 }
 
-function renderSettingsWithTransition(index) {
+function rotateKnob(angle) {
   knob.style.transitionProperty = 'transform';
   knob.style.transitionDuration = '200ms';
+  knob.style.transform = 'rotate(' + angle + 'deg)';
   setTimeout(function() {
     knob.style.transitionProperty = '';
     knob.style.transitionDuration = '';
   }, 200);
-  renderSettings(index);
 }
 
 content.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button' ||
       event.target.nodeName.toLowerCase() == 'li') {
     var index = parseInt(event.target.getAttribute('data-target'), 10);
-    renderSettingsWithTransition(index);
+    renderSettings(index, true);
   }
 });
 
@@ -173,7 +177,7 @@ function move(event) {
   var mins = Math.floor(helpers.deg2val(deg, 59));
   if (mins != data.data[key].minutes) {
     data.data[key].minutes = mins;
-    renderSettings(index);
+    renderSettings(index, false);
   }
 }
 
