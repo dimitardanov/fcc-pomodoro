@@ -16,10 +16,7 @@ renderWelcomeFace();
 
 footer.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button') {
-    var btn = event.target;
     var play = data.data.status.play = !data.data.status.play;
-    btn.setAttribute('data-play', String(play));
-    btn.className = play ? 'fa fa-stop' : 'fa fa-play';
     if (play) {
       startTimer();
       ticker(
@@ -45,6 +42,7 @@ function startTimer() {
       message: data.data.timer.message
     }
   );
+  render.playBtn(footer, data.data.status);
   knob.style.animationName = 'knob-spin';
   btnDrag.classList.remove('active');
   hint.style.animationName = '';
