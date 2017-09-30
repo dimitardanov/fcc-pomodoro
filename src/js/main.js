@@ -24,8 +24,9 @@ footer.addEventListener('click', function(event) {
       startTimer();
       ticker(
         helpers.calcMS(data.data.timer.minutes, data.data.timer.seconds),
-        1000,
-        'timer'
+        250,
+        'timer',
+        Date.now()
       );
     } else {
       stopTimer();
@@ -48,14 +49,12 @@ function startTimer() {
   btnDrag.classList.remove('active');
   btnDrag.removeEventListener('mousedown', adjustKnob);
   btnDrag.removeEventListener('touchstart', touchAdjust);
-  console.log('timer started');
 }
 
 function stopTimer() {
   knob.style.animationName = '';
   knob.style.transform = '';
   renderWelcomeFace();
-  console.log('timer stopped');
 }
 
 function renderWelcomeFace() {
@@ -70,10 +69,10 @@ function renderWelcomeFace() {
   render.playBtn(footer, data.data.status);
 }
 
-function ticker(ms, timeout, type) {
+function ticker(ms, timeout, type, start) {
   if (!data.data.status.play) {
     renderWelcomeFace();
-  } else if (ms > 0) {
+  } else if (ms >= 0) {
     var remainder = helpers.convertToMinSec(ms);
     render.timer(
       content,
@@ -84,15 +83,19 @@ function ticker(ms, timeout, type) {
       }
     );
     setTimeout(function() {
-      ticker(ms - timeout, timeout, type);
+      var now = Date.now();
+      ticker(ms - (now - start), timeout, type, now);
     }, timeout);
   } else {
     type = (type == 'timer') ? 'break' : 'timer';
+    knob.style.animationName = '';
+    knob.style.animationName = 'knob-spin';
     playSound();
     ticker(
       helpers.calcMS(data.data[type].minutes, data.data[type].seconds),
       timeout,
-      type
+      type,
+      Date.now()
     );
   }
 }
