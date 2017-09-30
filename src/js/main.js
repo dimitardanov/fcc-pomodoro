@@ -47,6 +47,7 @@ function startTimer() {
   );
   knob.style.animationName = 'knob-spin';
   btnDrag.classList.remove('active');
+  hint.style.animationName = '';
   btnDrag.removeEventListener('mousedown', adjustKnob);
   btnDrag.removeEventListener('touchstart', touchAdjust);
 }
