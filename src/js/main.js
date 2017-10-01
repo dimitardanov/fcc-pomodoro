@@ -19,10 +19,13 @@ footer.addEventListener('click', function(event) {
     var play = data.data.status.play = !data.data.status.play;
     if (play) {
       hideHint();
+      renderTimerFace();
       startTimer();
       deactivateDragBtn();
+      animateKnob();
     } else {
       renderWelcomeFace();
+      resetKnob();
     }
     playSound();
   }
@@ -32,8 +35,9 @@ header.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button') {
     var targetID = event.target.getAttribute('id');
     if (targetID == 'settings') {
-      renderSettings(0);
-      rotateKnob(0, true);
+      let index = 0;
+      renderSettings(index);
+      rotateKnob(index, true);
       activateDragBtn();
       showHint();
     } else if (targetID == 'mute') {
@@ -51,7 +55,7 @@ content.addEventListener('click', function(event) {
   }
 });
 
-function startTimer() {
+function renderTimerFace() {
   render.muteBtn(header, {mute: data.data.sound.mute});
   render.timer(
     content,
@@ -62,13 +66,6 @@ function startTimer() {
     }
   );
   render.playBtn(footer, data.data.status);
-  knob.style.animationName = 'knob-spin';
-  ticker(
-    helpers.calcMS(data.data.timer.minutes, data.data.timer.seconds),
-    250,
-    'timer',
-    Date.now()
-  );
 }
 
 function renderWelcomeFace() {
@@ -81,39 +78,6 @@ function renderWelcomeFace() {
     }
   );
   render.playBtn(footer, data.data.status);
-  knob.style.animationName = '';
-  knob.style.transform = '';
-}
-
-function ticker(ms, timeout, type, start) {
-  if (!data.data.status.play) {
-    return;
-  } else if (ms >= 0) {
-    var remainder = helpers.convertToMinSec(ms);
-    render.timer(
-      content,
-      {
-        minutes: '-' + ('0' + remainder.minutes).slice(-2),
-        seconds: ('0' + remainder.seconds).slice(-2),
-        message: data.data[type].message
-      }
-    );
-    setTimeout(function() {
-      var now = Date.now();
-      ticker(ms - (now - start), timeout, type, now);
-    }, timeout);
-  } else {
-    type = (type == 'timer') ? 'break' : 'timer';
-    knob.style.animationName = '';
-    knob.style.animationName = 'knob-spin';
-    playSound();
-    ticker(
-      helpers.calcMS(data.data[type].minutes, data.data[type].seconds),
-      timeout,
-      type,
-      Date.now()
-    );
-  }
 }
 
 function renderSettings(index, smooth) {
@@ -141,6 +105,15 @@ function rotateKnob(index, smooth) {
   var key = data.order[index];
   var angle = helpers.val2deg(data.data[key].minutes, 59);
   _rotateKnobByAngle(knob, angle, smooth);
+}
+
+function resetKnob() {
+  knob.style.animationName = '';
+  knob.style.transform = '';
+}
+
+function animateKnob() {
+  knob.style.animationName = 'knob-spin';
 }
 
 function playSound() {
@@ -218,4 +191,42 @@ function _rotateKnobByAngle(knob, angle, smooth) {
     }, 200);
   }
   knob.style.transform = 'rotate(' + angle + 'deg)';
+}
+
+function startTimer() {
+  _tickTock(
+    helpers.calcMS(data.data.timer.minutes, data.data.timer.seconds),
+    250,
+    'timer',
+    Date.now()
+  );
+}
+
+function _tickTock(ms, timeout, type, start) {
+  if (!data.data.status.play) {
+    return;
+  } else if (ms >= 0) {
+    var remainder = helpers.convertToMinSec(ms);
+    render.timer(
+      content,
+      {
+        minutes: '-' + ('0' + remainder.minutes).slice(-2),
+        seconds: ('0' + remainder.seconds).slice(-2),
+        message: data.data[type].message
+      }
+    );
+    setTimeout(function() {
+      var now = Date.now();
+      _tickTock(ms - (now - start), timeout, type, now);
+    }, timeout);
+  } else {
+    type = (type == 'timer') ? 'break' : 'timer';
+    playSound();
+    _tickTock(
+      helpers.calcMS(data.data[type].minutes, data.data[type].seconds),
+      timeout,
+      type,
+      Date.now()
+    );
+  }
 }
