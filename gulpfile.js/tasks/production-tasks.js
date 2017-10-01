@@ -19,7 +19,7 @@ gulp.task('production:html', function() {
 });
 
 gulp.task('production:js', function() {
-  return runSequence('compile:js', 'compile:hbs', 'minify:js');
+  return runSequence('compile:js', /* 'compile:hbs', */ 'minify:js');
 });
 
 gulp.task('production:css', function() {
