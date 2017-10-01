@@ -35,7 +35,7 @@ header.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button') {
     var targetID = event.target.getAttribute('id');
     if (targetID == 'settings') {
-      let index = 0;
+      var index = 0;
       renderSettings(index);
       rotateKnob(index, true);
       activateDragBtn();
