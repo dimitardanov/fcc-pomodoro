@@ -18,17 +18,36 @@ footer.addEventListener('click', function(event) {
   if (event.target.nodeName.toLowerCase() == 'button') {
     var play = data.data.status.play = !data.data.status.play;
     if (play) {
+      hideHint();
       startTimer();
-      ticker(
-        helpers.calcMS(data.data.timer.minutes, data.data.timer.seconds),
-        250,
-        'timer',
-        Date.now()
-      );
+      deactivateDragBtn();
     } else {
-      stopTimer();
+      renderWelcomeFace();
     }
     playSound();
+  }
+});
+
+header.addEventListener('click', function(event) {
+  if (event.target.nodeName.toLowerCase() == 'button') {
+    var targetID = event.target.getAttribute('id');
+    if (targetID == 'settings') {
+      renderSettings(0);
+      rotateKnob(0, true);
+      activateDragBtn();
+      showHint();
+    } else if (targetID == 'mute') {
+      toggleSound();
+    }
+  }
+});
+
+content.addEventListener('click', function(event) {
+  if (event.target.nodeName.toLowerCase() == 'button' ||
+  event.target.nodeName.toLowerCase() == 'li') {
+    var index = parseInt(event.target.getAttribute('data-target'), 10);
+    renderSettings(index);
+    rotateKnob(index, true);
   }
 });
 
@@ -44,16 +63,12 @@ function startTimer() {
   );
   render.playBtn(footer, data.data.status);
   knob.style.animationName = 'knob-spin';
-  btnDrag.classList.remove('active');
-  hint.style.animationName = '';
-  btnDrag.removeEventListener('mousedown', adjustKnob);
-  btnDrag.removeEventListener('touchstart', touchAdjust);
-}
-
-function stopTimer() {
-  knob.style.animationName = '';
-  knob.style.transform = '';
-  renderWelcomeFace();
+  ticker(
+    helpers.calcMS(data.data.timer.minutes, data.data.timer.seconds),
+    250,
+    'timer',
+    Date.now()
+  );
 }
 
 function renderWelcomeFace() {
@@ -66,11 +81,13 @@ function renderWelcomeFace() {
     }
   );
   render.playBtn(footer, data.data.status);
+  knob.style.animationName = '';
+  knob.style.transform = '';
 }
 
 function ticker(ms, timeout, type, start) {
   if (!data.data.status.play) {
-    renderWelcomeFace();
+    return;
   } else if (ms >= 0) {
     var remainder = helpers.convertToMinSec(ms);
     render.timer(
@@ -99,23 +116,7 @@ function ticker(ms, timeout, type, start) {
   }
 }
 
-header.addEventListener('click', function(event) {
-  if (event.target.nodeName.toLowerCase() == 'button') {
-    var targetID = event.target.getAttribute('id');
-    if (targetID == 'settings') {
-      renderSettings(0, true);
-      btnDrag.addEventListener('mousedown', adjustKnob);
-      btnDrag.addEventListener('touchstart', touchAdjust);
-    } else if (targetID == 'mute') {
-      data.data.sound.mute = !data.data.sound.mute;
-      render.muteBtn(header, {mute: data.data.sound.mute});
-      toggleVolume();
-    }
-  }
-});
-
 function renderSettings(index, smooth) {
-  render.title(header, {title: 'Settings'});
   var key = data.order[index];
   var btnIndices = helpers.getBtnIndices(index, data.order.length);
   var renderData = {
@@ -129,38 +130,53 @@ function renderSettings(index, smooth) {
     nextBtnTitle: data.order[btnIndices.next]
   };
   render.settings(content, renderData);
+  render.title(header, {title: 'Settings'});
   content.setAttribute('data-settings', index);
-  content.querySelector('ul li').className = '';
   content.querySelector(
-    'ul li:nth-child(' + (index + 1) + ')')
-    .className = 'active';
+    'ul li:nth-child(' + (index + 1) + ')'
+  ).classList.add('active');
+}
+
+function rotateKnob(index, smooth) {
+  var key = data.order[index];
   var angle = helpers.val2deg(data.data[key].minutes, 59);
-  if (smooth) {
-    rotateKnob(angle);
-  } else {
-    knob.style.transform = 'rotate(' + angle + 'deg)';
+  _rotateKnobByAngle(knob, angle, smooth);
+}
+
+function playSound() {
+  if (!data.data.sound.mute) {
+    sound.currentTime = 0;
+    sound.play();
   }
-  btnDrag.classList.add('active');
+}
+
+function toggleSound() {
+  data.data.sound.mute = !data.data.sound.mute;
+  render.muteBtn(header, {mute: data.data.sound.mute});
+  sound.volume = (data.data.sound.mute) ? 0 : 1;
+}
+
+function showHint() {
   hint.style.animationName = 'fade-in-out';
 }
 
-function rotateKnob(angle) {
-  knob.style.transitionProperty = 'transform';
-  knob.style.transitionDuration = '200ms';
-  knob.style.transform = 'rotate(' + angle + 'deg)';
-  setTimeout(function() {
-    knob.style.transitionProperty = '';
-    knob.style.transitionDuration = '';
-  }, 200);
+function hideHint() {
+  if (hint.style.animationName) {
+    hint.style.display = 'none';
+  }
 }
 
-content.addEventListener('click', function(event) {
-  if (event.target.nodeName.toLowerCase() == 'button' ||
-      event.target.nodeName.toLowerCase() == 'li') {
-    var index = parseInt(event.target.getAttribute('data-target'), 10);
-    renderSettings(index, true);
-  }
-});
+function deactivateDragBtn() {
+  btnDrag.removeEventListener('mousedown', adjustKnob);
+  btnDrag.removeEventListener('touchstart', touchAdjust);
+  btnDrag.classList.remove('active');
+}
+
+function activateDragBtn() {
+  btnDrag.addEventListener('mousedown', adjustKnob);
+  btnDrag.addEventListener('touchstart', touchAdjust);
+  btnDrag.classList.add('active');
+}
 
 function adjustKnob(event) {
   body.addEventListener('mousemove', move);
@@ -183,7 +199,8 @@ function move(event) {
   var mins = Math.floor(helpers.deg2val(deg, 59));
   if (mins != data.data[key].minutes) {
     data.data[key].minutes = mins;
-    renderSettings(index, false);
+    renderSettings(index);
+    rotateKnob(index, false);
   }
 }
 
@@ -191,13 +208,14 @@ function touchMove(event) {
   move(event.touches[0]);
 }
 
-function playSound() {
-  if (!data.data.sound.mute) {
-    sound.currentTime = 0;
-    sound.play();
+function _rotateKnobByAngle(knob, angle, smooth) {
+  if (smooth) {
+    knob.style.transitionProperty = 'transform';
+    knob.style.transitionDuration = '200ms';
+    setTimeout(function() {
+      knob.style.transitionProperty = '';
+      knob.style.transitionDuration = '';
+    }, 200);
   }
-}
-
-function toggleVolume() {
-  sound.volume = (data.data.sound.mute) ? 0 : 1;
+  knob.style.transform = 'rotate(' + angle + 'deg)';
 }
