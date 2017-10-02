@@ -5,7 +5,6 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var notifier = require('node-notifier');
 var browserify = require('browserify');
-var hbsfy = require('hbsfy');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
@@ -17,7 +16,7 @@ function jscompile() {
   var b = browserify({
     entries: [filesrc],
     debug: true,
-    transform: [hbsfy]
+    transform: ['hbsfy', 'babelify']
   });
 
   return b.bundle()
